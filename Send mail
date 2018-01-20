@@ -1,0 +1,70 @@
+1.Send mail From Locahost
+
+      using (MailMessage mm = new MailMessage("EmailFrom", "EmailTo"))
+            {
+                mm.Subject = "GridView Exported Excel";
+                mm.Body = "GridView Exported Excel Attachment";
+
+                //Add Byte array as Attachment.
+                
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential();
+                credentials.UserName = "Email";
+                credentials.Password = "Password";
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = credentials;
+                smtp.Port = 587;
+                smtp.Send(mm);
+            }
+
+
+2.Send mail from Godaddy
+
+            string message = "First Name" + FisrtName + ",Last Name" + LastName + ",Email" + Email + ",City" + City + ",Property Type" + PropertyType + ",Messsage" + requirement;
+            var result = string.Join(",", requirement);
+            MailMessage mail = new MailMessage();
+
+            mail.From = new MailAddress("EmailFrom");
+            SmtpClient smtp = new SmtpClient();
+
+
+            mail.To.Add("EmailTo ");
+            mail.Subject = "Customer Requirements";
+            mail.Body = "First Name : " + FisrtName + "\n" + "Last Name :" + LastName + "\n" + "Phone : " + Phone + "\n" + "Email :" + Email + "\n" + "Property Type : " + PropertyType + "\n" + "Requirement :" + result + ".";
+            mail.IsBodyHtml = false;
+
+            
+            smtp.EnableSsl = false;
+            smtp.UseDefaultCredentials = false;
+            smtp.Port = 25;
+            smtp.Host = "relay-hosting.secureserver.net";
+
+            smtp.Send(mail);
+
+
+3.Send Confirmation mail Link
+
+  using (MailMessage mm = new MailMessage("EmailFrom", "EmailTo"))
+            {
+                mm.Subject = "Account Activation";
+                string body = "Hello " + user.Username + ",";
+                var callbackUrl = Url.Action("AccountVerify", "Registration", new { Token = user.User_Id, Emailid = user.Email }, protocol: Request.Url.Scheme);
+                mm.Body = string.Format("Dear {0}<br/> Thank you for your registration, please click on the below link to complete your registration:{1}", user.Username,callbackUrl);
+
+                //Add Byte array as Attachment.
+
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential();
+                credentials.UserName = "EmailFrom";
+                credentials.Password = "Password";
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = credentials;
+                smtp.Port = 587;
+                smtp.Send(mm);
+            }
